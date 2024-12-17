@@ -1,4 +1,4 @@
-package com.examcreator.models;
+package com.examcreator.models.component;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,7 +10,7 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 /**
  * MultipleChoice
  */
-public class MultipleChoice implements Question, Serializable {
+public class MultipleChoice implements Component, Serializable {
   private static final long serialVersionUID = 2L;
 
   private final String questionText;
@@ -32,21 +32,23 @@ public class MultipleChoice implements Question, Serializable {
   }
 
   @Override
-  public String getQuestionText() {
-    return questionText;
-  }
-
-  @Override
-  public void setQuestionText(String text) {
+  public String getText() {
     // TODO: Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'setQuestionText'");
+    throw new UnsupportedOperationException("Unimplemented method 'getText'");
   }
 
   @Override
-  public XWPFParagraph getQuestion(XWPFDocument doc, int number) {
+  public void setText(String text) {
+    // TODO: Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'setText'");
+  }
+
+
+  @Override
+  public XWPFParagraph getParagraph(XWPFDocument doc, int number) {
     XWPFParagraph questionParagraph = doc.createParagraph();
     XWPFRun questionRun = questionParagraph.createRun();
-    questionRun.setText(number + ". " + this.getQuestionText());
+    questionRun.setText(number + ". " + this.getText());
     questionRun.setBold(true);
     questionRun.setFontSize(12);
 
@@ -60,5 +62,6 @@ public class MultipleChoice implements Question, Serializable {
     }
     return questionParagraph;
   }
+
 
 }

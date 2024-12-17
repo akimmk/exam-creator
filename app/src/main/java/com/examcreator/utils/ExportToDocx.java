@@ -9,13 +9,13 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 
-import com.examcreator.models.Question;
+import com.examcreator.models.component.Component;
 
 /**
  * QuestionToDocx
  */
 public class ExportToDocx {
-  public static void exportExam(XWPFDocument doc, List<Question> questions, String path) {
+  public static void exportExam(XWPFDocument doc, List<Component> questions, String path) {
     XWPFParagraph titleParagraph = doc.createParagraph();
     titleParagraph.setAlignment(ParagraphAlignment.CENTER);
     XWPFRun titleRun = titleParagraph.createRun();
@@ -25,8 +25,8 @@ public class ExportToDocx {
 
     // Add questions and choices to the document
     for (int i = 0; i < questions.size(); i++) {
-      Question q = questions.get(i);
-      q.getQuestion(doc, (i + 1));
+      Component q = questions.get(i);
+      q.getParagraph(doc, (i + 1));
     }
 
     try {

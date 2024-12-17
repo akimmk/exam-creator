@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.examcreator.models.section.Section;
+
 /**
  * Exam
  */
@@ -11,11 +13,11 @@ public class Exam implements Serializable {
   private static final long serialVersionUID = 1L;
 
   private String title;
-  private List<Question> questions;
+  public List<Section> sections;
 
   public Exam(String title) {
     this.title = title;
-    this.questions = new ArrayList<>();
+    this.sections = new ArrayList<>();
   }
 
   public String getTitle() {
@@ -26,15 +28,8 @@ public class Exam implements Serializable {
     this.title = title;
   }
 
-  public List<Question> getQuestions() {
-    return questions;
+  public List<Section> getSections() {
+    return this.sections;
   }
 
-  public void addQuestion(Question question) {
-    this.questions.add(question);
-  }
-
-  public void removeQuestion(Question question) {
-    this.questions.remove(question);
-  }
 }

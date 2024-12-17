@@ -1,6 +1,6 @@
 package com.examcreator.views;
 
-import com.examcreator.models.Question;
+import com.examcreator.models.component.Component;
 
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
  */
 public class QuestionListView {
   private VBox view;
-  private ListView<Question> questionList;
+  private ListView<Component> questionList;
 
   public QuestionListView() {
     this.view = new VBox();
@@ -18,7 +18,7 @@ public class QuestionListView {
     this.view.getChildren().add(questionList);
   }
 
-  public void addQuestion(Question question) {
+  public void addQuestion(Component question) {
     questionList.getItems().add(question);
   }
 

@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 import com.examcreator.models.Exam;
-import com.examcreator.models.MultipleChoice;
-import com.examcreator.models.Question;
+import com.examcreator.models.component.Component;
+import com.examcreator.models.component.MultipleChoice;
+import com.examcreator.models.section.ChoiceSection;
+import com.examcreator.models.section.Section;
 import com.examcreator.utils.SerializationUtils;
 
 import javafx.collections.FXCollections;
@@ -26,18 +28,22 @@ import javafx.stage.FileChooser;
 public class AppController {
 
   private Exam currentExam;
+  // TODO: remove this instance
+  private Section tmpSection;
 
   @FXML
   private TextField examTitleField;
   @FXML
-  private ListView<Question> questionsListView;
+  private ListView<Section> questionsListView;
 
-  private ObservableList<Question> questionObservableList;
+  private ObservableList<Section> questionObservableList;
 
   @FXML
   public void initialize() {
     currentExam = new Exam("Untitled Exam");
-    questionObservableList = FXCollections.observableArrayList(currentExam.getQuestions());
+    tmpSection = new ChoiceSection();
+    currentExam.getSections().add(tmpSection);
+    questionObservableList = FXCollections.observableArrayList(currentExam.getSections());
     questionsListView.setItems(questionObservableList);
     examTitleField.setText(currentExam.getTitle());
   }
@@ -56,21 +62,20 @@ public class AppController {
 
     result.ifPresent(questionText -> {
       List<String> choices = Arrays.asList("Paris", "London", "Berlin", "Madrid");
-      Question newQuestion = new MultipleChoice(questionText, choices);
-      currentExam.addQuestion(newQuestion);
-      questionObservableList.add(newQuestion);
+      Component newQuestion = new MultipleChoice(questionText, choices);
+      tmpSection.getQuestions().add(newQuestion);
     });
   }
 
   @FXML
   public void deleteSelectedQuestion() {
-    Question selectedQuestion = questionsListView.getSelectionModel().getSelectedItem();
-    if (selectedQuestion != null) {
-      currentExam.removeQuestion(selectedQuestion);
-      questionObservableList.remove(selectedQuestion);
-    } else {
-      showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a question to delete.");
-    }
+    // Component selectedQuestion = questionsListView.getSelectionModel().getSelectedItem();
+    // if (selectedQuestion != null) {
+    //   currentExam.removeQuestion(selectedQuestion);
+    //   questionObservableList.remove(selectedQuestion);
+    // } else {
+    //   showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a question to delete.");
+    // }
   }
 
   @FXML
@@ -114,7 +119,7 @@ public class AppController {
     if (file != null) {
       try {
         currentExam = SerializationUtils.load(file.getAbsolutePath(), Exam.class);
-        questionObservableList = FXCollections.observableArrayList(currentExam.getQuestions());
+        questionObservableList = FXCollections.observableArrayList(currentExam.getSections());
         questionsListView.setItems(questionObservableList);
         examTitleField.setText(currentExam.getTitle());
         showAlert(Alert.AlertType.INFORMATION, "Exam Opened",
